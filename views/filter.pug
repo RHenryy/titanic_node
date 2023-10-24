@@ -1,0 +1,24 @@
+extends layouts/basic_layout
+
+include includes/mixins/mixins
+
+block head
+  script(defer type="module" src="../js/filter.js")
+  script(src="https://cdn.jsdelivr.net/npm/chart.js")
+block content
+
+    h1.text-center Passengers Data
+    h2 Filter : 
+        span#filter #{filter}
+    h2 Graphic charts :
+    div.flex
+        a(href="/titanic/filter=sex").ui.fluid.large.black.button.filterBtn(data-filter="Sexe") Sexe
+        a(href="/titanic/filter=Age").ui.fluid.large.black.button.filterBtn(data-filter="Age") Age
+        a(href="/titanic/filter=classe").ui.fluid.large.black.button.filterBtn(data-filter="Classes") Classe 
+    div.canvas-container
+        canvas#titanicChart 
+    div.flex
+        span#pourcentage1 
+        span#pourcentage2 
+        if filter === "Classe"
+            span#pourcentage3

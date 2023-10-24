@@ -7,12 +7,14 @@ block head
 
 block content
 
-    h1.text-center Data Passagers 
+    h1.text-center Titanic Passengers Data
+    h2 Graphic charts :
+    div.flex
+        a(href="titanic/filter=sex").ui.fluid.large.black.button.filterBtn(data-filter="Sexe") Sexe
+        a(href="titanic/filter=Age").ui.fluid.large.black.button.filterBtn(data-filter="Age") Age
+        a(href="titanic/filter=classe").ui.fluid.large.black.button.filterBtn(data-filter="Classes") Classe 
+    p.margin-top-2 Nombre de passagers : <b>#{numberOfPassengers}</b>
     div.grid-container
-        +passengerCard("Cartes passagers")
-        +passengerCard("Cartes passagers")
-        +passengerCard("Cartes passagers")
-        +passengerCard("Cartes passagers")
-        +passengerCard("Cartes passagers")
-        +passengerCard("Cartes passagers")
-        
+        each passenger in Passengers 
+          +passengerCard(passenger)
+

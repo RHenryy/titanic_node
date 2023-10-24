@@ -1,5 +1,6 @@
 import { Router } from "express";
-import HomeController from "../controllers/home.js";
+import { home } from "../controllers/home.js";
+import { filter } from "../controllers/filter.js";
 import { loginPage, login } from "../controllers/login.js";
 import { registerPage, register } from "../controllers/register.js";
 import disconnectController from "../controllers/disconnect.js";
@@ -18,7 +19,7 @@ function isAuthenticated(req, res, next) {
   }
 }
 //home
-appRouter.get("/", HomeController);
+appRouter.get("/", home);
 //login
 appRouter.get("/login", loginPage);
 appRouter.post("/login", login);
@@ -27,4 +28,7 @@ appRouter.get("/register", registerPage);
 appRouter.post("/register", register);
 //DC
 appRouter.get("/logout", disconnectController);
+//filter
+appRouter.get("/titanic/filter=:filter", isAuthenticated, filter);
+// appRouter.get("/titanic/filter=:filter", filter);
 export default appRouter;

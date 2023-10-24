@@ -1,9 +1,17 @@
 mixin passengerCard(data) 
     .passengerCard.text-center
-        p #{data}
+        img(src="http://localhost:8000/assets/anonymous.jpg" class="passengerImg")
+        p #{data.Name}
+        p #{data.Sex === "male" ? "Homme" : "Femme"}
+        if data.Age
+            p #{data.Age} ans
+        p #{data.Survived === 1 ? "A survécu" : "N'a pas survécu"}
+        p #{data.Pclass} e classe
 
 mixin field(type, name, placeholder, value)
   .field
     .ui.left.icon.input
       i.icon(class=(type === 'password' ? 'lock' : 'user'))
       input(type=type, name=name, placeholder=placeholder, required=true, value=value)
+
+

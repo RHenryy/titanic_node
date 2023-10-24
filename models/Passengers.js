@@ -10,7 +10,7 @@ const Passenger = new mongoose.Schema({
   Parch: { type: Number, required: true },
   Ticket: { type: String, required: true },
   Fare: { type: Number, required: true },
-  Cabin: { type: String, required: true },
+  Cabin: { type: String },
   Embarked: { type: String, required: true },
 });
 const PassengerModel = mongoose.model("passengers", Passenger);

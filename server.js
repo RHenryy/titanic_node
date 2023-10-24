@@ -4,8 +4,10 @@ import path from "path";
 import { fileURLToPath } from "url";
 import mongoose from "mongoose";
 import route from "./routes/routes.js";
+import apiRouter from "./routes/api.js";
 import session from "express-session";
 import jwt from "jsonwebtoken";
+import Chart from "chart.js/auto";
 // ==========
 // App initialization
 // ==========
@@ -52,6 +54,7 @@ app.use((req, res, next) => {
 // App routers
 // ==========
 app.use("/", route);
+app.use("/api", apiRouter);
 // ==========
 // App start
 // ==========
