@@ -1,0 +1,23 @@
+nav#nav.ui.inverted.menu
+  .left.menu
+    a.item(href='/' class=(pagename === "homepage" ? "active" : ""))
+      i.home.icon
+      | Home
+
+  .right.menu
+    if !user
+      a.item(href='/register' class=(pagename === "register" ? "active" : ""))
+        i.sign-in.icon
+        | Inscription
+    if !user
+      a.item(href='/login' class=(pagename === "login" ? "active" : ""))
+        i.sign-in.icon
+        | Connexion
+    if user
+      span.item
+        i.user.icon
+        | #{user.firstName} #{user.lastName}
+    if user
+      a.item(href='/logout')
+        i.sign-out.icon
+        | Déconnexion

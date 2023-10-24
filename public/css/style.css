@@ -1,0 +1,30 @@
+body {
+    background-color: lightgrey;
+}
+.td-none {
+    text-decoration: none;
+}
+.ls-none {
+    list-style: none;
+}
+.container {
+    max-width: 1350px;
+    margin: 0 auto;
+    
+}
+.text-center {
+    text-align: center;
+}
+.form-container {
+    max-width: 80%;
+    margin: 0 auto;
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    grid-template-rows: repeat(3, 1fr);    
+    gap: 10px; 
+    max-width: 90%;
+    margin: 0 auto;
+    margin-top: 5rem;
+  }

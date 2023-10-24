@@ -1,0 +1,18 @@
+extends layouts/basic_layout
+
+include includes/mixins/mixins
+
+block head
+  //- Inject here JS and styles for this specific page
+
+block content
+
+    h1.text-center Data Passagers 
+    div.grid-container
+        +passengerCard("Cartes passagers")
+        +passengerCard("Cartes passagers")
+        +passengerCard("Cartes passagers")
+        +passengerCard("Cartes passagers")
+        +passengerCard("Cartes passagers")
+        +passengerCard("Cartes passagers")
+        
