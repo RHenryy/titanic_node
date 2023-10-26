@@ -1,10 +1,26 @@
 import PassengerModel from "../models/Passengers.js";
 let pagename = "homepage";
+let limit = 40;
+let page = 0;
+let offset = 0;
 export async function home(req, res) {
   try {
-    const Passengers = await PassengerModel.find();
-    let numberOfPassengers = Passengers.length;
-    res.render("home", { pagename, Passengers, numberOfPassengers });
+    if (req.params.page) {
+      page = req.params.page;
+      offset = (page - 1) * limit;
+    } else {
+      page = 1;
+      offset = (page - 1) * limit;
+    }
+    const Passengers = await PassengerModel.find().skip(offset).limit(limit);
+    const numberOfPassengers = await PassengerModel.countDocuments();
+    res.render("home", {
+      pagename,
+      Passengers,
+      numberOfPassengers,
+      limit,
+      page,
+    });
   } catch (err) {
     res.status(500).send(err.message);
   }
@@ -14,17 +30,19 @@ export async function filterPassengers(req, res) {
     let chosenFilter = req.params.filter;
     let order = req.params.order;
     order = order === "ASC" ? 1 : -1;
-    const Passengers = await PassengerModel.find().sort({
-      [chosenFilter]: order,
-    });
-    console.log(Passengers);
-    let numberOfPassengers = Passengers.length;
+    const Passengers = await PassengerModel.find()
+      .sort({
+        [chosenFilter]: order,
+      })
+      .limit(limit);
+    const numberOfPassengers = await PassengerModel.countDocuments();
     res.render("home", {
       pagename,
       Passengers,
       numberOfPassengers,
       chosenFilter,
       order,
+      limit,
     });
   } catch (err) {
     res.status(500).send(err.message);

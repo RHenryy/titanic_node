@@ -45,6 +45,11 @@ body {
     display: flex;
     justify-content: space-evenly;
 }
+.flexPagination {
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
 .margin-top-2 {
     margin-top: 2rem;
 }
@@ -74,4 +79,8 @@ body {
 }
 .activeArrow {
     color:white;
+}
+.active-pagination {
+    background-color: white;
+    color: black;
 }

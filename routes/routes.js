@@ -20,7 +20,8 @@ function isAuthenticated(req, res, next) {
 }
 //home
 appRouter.get("/", home);
-appRouter.get("/?:filter=:order", filterPassengers);
+appRouter.get("/page=:page", home);
+appRouter.get("/:filter=:order", filterPassengers);
 //login
 appRouter.get("/login", loginPage);
 appRouter.post("/login", login);
