@@ -29,6 +29,6 @@ appRouter.post("/register", register);
 //DC
 appRouter.get("/logout", disconnectController);
 //filter
-appRouter.get("/titanic/filter=:filter", isAuthenticated, filter);
+appRouter.get("/titanic/filter=:filter", filter);
 // appRouter.get("/titanic/filter=:filter", filter);
 export default appRouter;

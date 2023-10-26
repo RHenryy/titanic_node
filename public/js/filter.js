@@ -1,30 +1,42 @@
-function drawChart(label, numberof, yAxis, xAxis) {
-  const ctx = document.getElementById("titanicChart");
+function drawChart(
+  label,
+  numberof,
+  yAxis,
+  xAxis,
+  boolean,
+  type,
+  canvasId,
+  title,
+  color
+) {
+  const ctx = document.getElementById(canvasId);
   new Chart(ctx, {
-    type: "bar",
+    type: type,
     data: {
       labels: label,
       datasets: [
         {
-          label: "Number",
+          label: title,
           data: numberof,
           borderWidth: 3,
-          backgroundColor: "black",
+          backgroundColor: color,
         },
       ],
     },
     options: {
       scales: {
         y: {
+          display: boolean,
           beginAtZero: true,
           title: {
-            display: true,
+            display: boolean,
             text: yAxis,
           },
         },
         x: {
+          display: boolean,
           title: {
-            display: true,
+            display: boolean,
             text: xAxis,
           },
         },
@@ -38,16 +50,81 @@ try {
     .then((res) => res.json())
     .then((data) => {
       const passengers = data.passengers;
+      const totalPassengers = passengers.length;
+      let totalDeaths = 0;
       let filter = document.getElementById("filter").innerHTML;
       let labelData = [];
       let numberOf = [];
-      console.log(filter);
+      let ageInterval = {};
+      let ageIntervalDeaths = {};
       if (filter === "Age") {
         const ageCount = {};
         for (const passenger of passengers) {
-          if (passenger.Age && passenger.Age >= 1) {
+          if (passenger.Survived === 0) {
+            totalDeaths++;
+          }
+          if (passenger.Age === null) {
+            labelData.push("Inconnu");
+            ageInterval["Inconnu"] = ageInterval["Inconnu"]
+              ? ageInterval["Inconnu"] + 1
+              : 1;
+            if (passenger.Survived === 0) {
+              ageIntervalDeaths["Inconnu"] = ageIntervalDeaths["Inconnu"]
+                ? ageIntervalDeaths["Inconnu"] + 1
+                : 1;
+            }
+          }
+          if (passenger.Age && passenger.Age >= 0) {
             let age = parseInt(passenger.Age.toFixed(0), 10);
             labelData.push(age);
+            if (age >= 0 && age <= 17) {
+              ageInterval["0-17"] = ageInterval["0-17"]
+                ? ageInterval["0-17"] + 1
+                : 1;
+            }
+            if (age >= 0 && age <= 17) {
+              if (passenger.Survived === 0) {
+                ageIntervalDeaths["0-17"] = ageIntervalDeaths["0-17"]
+                  ? ageIntervalDeaths["0-17"] + 1
+                  : 1;
+              }
+            }
+            if (age >= 18 && age <= 35) {
+              ageInterval["18-35"] = ageInterval["18-35"]
+                ? ageInterval["18-35"] + 1
+                : 1;
+            }
+            if (age >= 18 && age <= 35) {
+              if (passenger.Survived === 0) {
+                ageIntervalDeaths["18-35"] = ageIntervalDeaths["18-35"]
+                  ? ageIntervalDeaths["18-35"] + 1
+                  : 1;
+              }
+            }
+            if (age >= 36 && age <= 60) {
+              ageInterval["36-60"] = ageInterval["36-60"]
+                ? ageInterval["36-60"] + 1
+                : 1;
+            }
+            if (age >= 36 && age <= 60) {
+              if (passenger.Survived === 0) {
+                ageIntervalDeaths["36-60"] = ageIntervalDeaths["36-60"]
+                  ? ageIntervalDeaths["36-60"] + 1
+                  : 1;
+              }
+            }
+            if (age > 60) {
+              ageInterval["60+"] = ageInterval["60+"]
+                ? ageInterval["60+"] + 1
+                : 1;
+            }
+            if (age > 60) {
+              if (passenger.Survived === 0) {
+                ageIntervalDeaths["60+"] = ageIntervalDeaths["60+"]
+                  ? ageIntervalDeaths["60+"] + 1
+                  : 1;
+              }
+            }
             if (ageCount[age]) {
               ageCount[age]++;
             } else {
@@ -55,50 +132,123 @@ try {
             }
           }
         }
+        let finalAgeArray = [];
+        ageIntervalDeaths = Object.keys(ageIntervalDeaths)
+          .sort()
+          .reduce((obj, key) => {
+            obj[key] = ageIntervalDeaths[key];
+            return obj;
+          }, {});
+        for (const age in ageIntervalDeaths) {
+          let tempAge = ((ageIntervalDeaths[age] / totalDeaths) * 100).toFixed(
+            2
+          );
+          finalAgeArray.push(tempAge);
+          // finalAgeArray.push(ageInterval[age]);
+        }
         for (const age in ageCount) {
           numberOf.push(ageCount[age]);
         }
-        const uniqueLabel = [...new Set(labelData)];
-        uniqueLabel.sort((a, b) => a - b);
-
-        drawChart(uniqueLabel, numberOf, "Nombre de passagers", "Age");
+        let uniqueLabel = [...new Set(labelData)];
+        uniqueLabel.sort((a, b) =>
+          a.toString().localeCompare(b, undefined, { numeric: true })
+        );
+        drawChart(
+          uniqueLabel,
+          numberOf,
+          "Nombre de passagers",
+          "Age",
+          true,
+          "bar",
+          "titanicChart",
+          "Nombre de passagers",
+          "black"
+        );
+        let labelArray = ["0-17", "18-35", "36-60", "60+", "Inconnu"];
+        let colorArray = ["blue", "green", "red", "yellow", "black"];
+        drawChart(
+          labelArray,
+          finalAgeArray,
+          "Nombre de passagers",
+          "Age",
+          false,
+          "pie",
+          "titanicPieChart",
+          "% de mortalité par tranche d'age",
+          colorArray
+        );
       } else if (filter === "Sex") {
         const sexCount = {};
+        let numberOfDeaths = {};
         let labelData = [];
         let numberOf = [];
         for (const passenger of passengers) {
           if (passenger.Sex && passenger.Sex !== "") {
             let sex = passenger.Sex;
-            labelData.push(sex);
+            let sexLabel = sex === "male" ? "Hommes" : "Femmes";
+            labelData.push(sexLabel);
             if (sexCount[sex]) {
               sexCount[sex]++;
             } else {
               sexCount[sex] = 1;
+            }
+            if (!numberOfDeaths[sex]) {
+              numberOfDeaths[sex] = 0;
+            }
+            if (passenger.Survived === 0) {
+              numberOfDeaths[sex]++;
             }
           }
         }
         for (const sex in sexCount) {
           numberOf.push(sexCount[sex]);
         }
+        numberOf.splice(1, 0, numberOfDeaths["male"]);
+        numberOf.splice(3, 0, numberOfDeaths["female"]);
         const uniqueLabel = [...new Set(labelData)];
         uniqueLabel.sort((a, b) => a - b);
         let span1 = document.getElementById("pourcentage1");
         let span2 = document.getElementById("pourcentage2");
+        let span3 = document.getElementById("pourcentage3");
+        let span4 = document.getElementById("pourcentage4");
         span1.innerHTML =
-          "Taux d'hommes <span class='red'>" +
-          ((numberOf[0] / (numberOf[0] + numberOf[1])) * 100).toFixed(2) +
+          "Taux d'hommes <span class='blue'>" +
+          ((numberOf[0] / (numberOf[0] + numberOf[2])) * 100).toFixed(2) +
           "%</span>";
         span2.innerHTML =
-          "Taux de femmes <span class='red'>" +
-          ((numberOf[1] / (numberOf[1] + numberOf[0])) * 100).toFixed(2) +
+          "Taux mortalité hommes <span class='red'>" +
+          ((numberOf[1] / numberOf[0]) * 100).toFixed(2) +
+          "%";
+        span3.innerHTML =
+          "Taux de femmes <span class='blue'>" +
+          ((numberOf[2] / (numberOf[2] + numberOf[0])) * 100).toFixed(2) +
           "%</span>";
-        drawChart(uniqueLabel, numberOf, "Nombre de passagers", "Sexe");
+        span4.innerHTML =
+          "Taux mortalité femmes <span class='red'>" +
+          ((numberOf[3] / numberOf[2]) * 100).toFixed(2) +
+          "%</span>";
+        uniqueLabel.splice(1, 0, "Morts hommes");
+        uniqueLabel.splice(3, 0, "Morts femmes");
+        drawChart(
+          uniqueLabel,
+          numberOf,
+          "Nombre de passagers",
+          "Sexe",
+          true,
+          "bar",
+          "titanicChart",
+          "Nombre de passagers",
+          "black"
+        );
       } else if (filter === "Classe") {
         const classeCount = {};
         const numberOfDeaths = {};
         let labelData = [];
         let numberOf = [];
         for (const passenger of passengers) {
+          if (passenger.Survived === 0) {
+            totalDeaths++;
+          }
           if (passenger.Pclass && passenger.Pclass !== "") {
             let Pclass = passenger.Pclass;
             labelData.push(Pclass);
@@ -123,7 +273,6 @@ try {
         let appendString = " e classe";
         const uniqueLabel = labelArray.map((item) => item + appendString);
         for (const death in numberOfDeaths) {
-          console.log(death);
           if (death == 1) {
             uniqueLabel.splice(1, 0, "Morts en " + death + appendString);
             numberOf.splice(1, 0, numberOfDeaths[death]);
@@ -152,7 +301,35 @@ try {
           "Taux de mortalité <strong>3eme classe:</strong> <span class='red'>" +
           ((numberOf[5] / numberOf[4]) * 100).toFixed(2) +
           "%</span>";
-        drawChart(uniqueLabel, numberOf, "Nombre de passagers", "Classe");
+        let pieLabel = ["1ere classe", "2eme classe", "3eme classe"];
+        let pieNumber = [
+          ((numberOf[1] / totalDeaths) * 100).toFixed(2),
+          ((numberOf[3] / totalDeaths) * 100).toFixed(2),
+          ((numberOf[5] / totalDeaths) * 100).toFixed(2),
+        ];
+        let colorArray = ["blue", "green", "red"];
+        drawChart(
+          uniqueLabel,
+          numberOf,
+          "Nombre de passagers",
+          "Classe",
+          true,
+          "bar",
+          "titanicChart",
+          "Number of passengers",
+          "black"
+        );
+        drawChart(
+          pieLabel,
+          pieNumber,
+          "Nombre de passagers",
+          "Classe",
+          false,
+          "pie",
+          "titanicPieChart",
+          "% de mortalité par classe",
+          colorArray
+        );
       }
     });
 } catch (err) {

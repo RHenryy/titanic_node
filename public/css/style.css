@@ -48,10 +48,23 @@ body {
 .margin-top-2 {
     margin-top: 2rem;
 }
+.margin-top-5 {
+    margin-top: 5rem;
+}
 .red {
     color:red;
 }
+.blue {color: blue;}
 .canvas-container {
     width: 80%;
     margin: 0 auto;
+    margin-top: 3rem;
+}
+.pie-container {
+    width: 40%;
+    margin: 0 auto;
+    margin-top: 3rem;
+}
+.activeFilter {
+    background-color: white;
 }

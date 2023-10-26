@@ -12,13 +12,22 @@ block content
         span#filter #{filter}
     h2 Graphic charts :
     div.flex
-        a(href="/titanic/filter=sex").ui.fluid.large.black.button.filterBtn(data-filter="Sexe") Sexe
-        a(href="/titanic/filter=Age").ui.fluid.large.black.button.filterBtn(data-filter="Age") Age
-        a(href="/titanic/filter=classe").ui.fluid.large.black.button.filterBtn(data-filter="Classes") Classe 
+        a(href="/titanic/filter=sex" class=(filter === "Sex" ? "activeFilter" : "black")).ui.fluid.large.button.filterBtn(data-filter="Sexe") Sexe
+        a(href="/titanic/filter=Age" class=(filter === "Age" ? "activeFilter" : "black")).ui.fluid.large.button.filterBtn(data-filter="Age") Age
+        a(href="/titanic/filter=classe" class=(filter === "Classe" ? "activeFilter" : "black")).ui.fluid.large.button.filterBtn(data-filter="Classes") Classe 
     div.canvas-container
         canvas#titanicChart 
     div.flex
         span#pourcentage1 
         span#pourcentage2 
-        if filter === "Classe"
+        if filter === "Classe" || filter === "Sex"
             span#pourcentage3
+        if filter === "Sex"
+            span#pourcentage4
+    if filter === "Classe" 
+        h2.text-center Pourcentage de mortalité totale par classe : 
+    if filter === "Age"
+        h2.text-center Pourcentage de mortalité totale par tranches d'âge :
+    div.pie-container
+        canvas#titanicPieChart
+
