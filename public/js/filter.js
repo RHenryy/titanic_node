@@ -183,6 +183,9 @@ try {
         let labelData = [];
         let numberOf = [];
         for (const passenger of passengers) {
+          if (passenger.Survived === 0) {
+            totalDeaths++;
+          }
           if (passenger.Sex && passenger.Sex !== "") {
             let sex = passenger.Sex;
             let sexLabel = sex === "male" ? "Hommes" : "Femmes";
@@ -229,6 +232,11 @@ try {
           "%</span>";
         uniqueLabel.splice(1, 0, "Morts hommes");
         uniqueLabel.splice(3, 0, "Morts femmes");
+        let labelArray = ["% Morts hommes", "% Morts femmes"];
+        let pieNumber = [
+          ((numberOf[1] / totalDeaths) * 100).toFixed(2),
+          ((numberOf[3] / totalDeaths) * 100).toFixed(2),
+        ];
         drawChart(
           uniqueLabel,
           numberOf,
@@ -239,6 +247,17 @@ try {
           "titanicChart",
           "Nombre de passagers",
           "black"
+        );
+        drawChart(
+          labelArray,
+          pieNumber,
+          "Nombre de passagers",
+          "Sexe",
+          false,
+          "pie",
+          "titanicPieChart",
+          "% de mortalité totale par sexe",
+          ["red", "blue"]
         );
       } else if (filter === "Classe") {
         const classeCount = {};
