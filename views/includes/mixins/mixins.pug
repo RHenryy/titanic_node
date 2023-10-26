@@ -4,7 +4,10 @@ mixin passengerCard(data)
         p #{data.Name}
         p #{data.Sex === "male" ? "Homme" : "Femme"}
         if data.Age
+          if data.Age > 1
             p #{data.Age} ans
+          else 
+            p #{data.Age.toFixed(0)} an
         p #{data.Survived === 1 ? "A survécu" : "N'a pas survécu"}
         p #{data.Pclass} e classe
 

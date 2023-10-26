@@ -24,7 +24,7 @@ body {
     grid-template-columns: repeat(4, 1fr); 
     grid-template-rows: repeat(4, 1fr);    
     gap: 50px; 
-    max-width: 90%;
+    max-width: 70%;
     margin: 0 auto;
     margin-top: 5rem;
   }
@@ -67,4 +67,11 @@ body {
 }
 .activeFilter {
     background-color: white;
+}
+.filterLink {
+    margin: 0 5px;
+    color:black;
+}
+.activeArrow {
+    color:white;
 }

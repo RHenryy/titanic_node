@@ -14,6 +14,26 @@ block content
         a(href="titanic/filter=Age").ui.fluid.large.black.button.filterBtn(data-filter="Age") Age
         a(href="titanic/filter=classe").ui.fluid.large.black.button.filterBtn(data-filter="Classes") Classe 
     p.margin-top-2 Nombre de passagers : <b>#{numberOfPassengers}</b>
+    h2 Trier par :
+    div.flex
+      div.filter
+        p Genre
+          a(href="/Sex=ASC" class=(chosenFilter === "Sex" && order === 1 ? "activeArrow" : "")).filterLink
+            i(class="fa-solid fa-arrow-up")
+          a(href="/Sex=DESC" class=(chosenFilter === "Sex" && order === -1 ? "activeArrow" : "")).filterLink
+            i(class="fa-solid fa-arrow-down")
+      div.filter
+        p Age
+          a(href="/Age=ASC" class=(chosenFilter === "Age" && order === 1 ? "activeArrow" : "")).filterLink
+            i(class="fa-solid fa-arrow-up")
+          a(href="/Age=DESC" class=(chosenFilter === "Age" && order === -1 ? "activeArrow" : "")).filterLink
+            i(class="fa-solid fa-arrow-down")
+      div.filter
+        p Classe
+          a(href="/Pclass=ASC" class=(chosenFilter === "Pclass" && order === 1 ? "activeArrow" : "")).filterLink
+            i(class="fa-solid fa-arrow-up")
+          a(href="/Pclass=DESC" class=(chosenFilter === "Pclass" && order === -1 ? "activeArrow" : "")).filterLink
+            i(class="fa-solid fa-arrow-down")
     div.grid-container
         each passenger in Passengers 
           +passengerCard(passenger)

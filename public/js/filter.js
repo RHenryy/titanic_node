@@ -174,7 +174,7 @@ try {
           false,
           "pie",
           "titanicPieChart",
-          "% de mortalité par tranche d'age",
+          "% de mortalité totale par tranche d'age",
           colorArray
         );
       } else if (filter === "Sex") {
@@ -346,7 +346,7 @@ try {
           false,
           "pie",
           "titanicPieChart",
-          "% de mortalité par classe",
+          "% de mortalité totale par classe",
           colorArray
         );
       }

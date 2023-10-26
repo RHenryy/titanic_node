@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { home } from "../controllers/home.js";
+import { home, filterPassengers } from "../controllers/home.js";
 import { filter } from "../controllers/filter.js";
 import { loginPage, login } from "../controllers/login.js";
 import { registerPage, register } from "../controllers/register.js";
@@ -20,6 +20,7 @@ function isAuthenticated(req, res, next) {
 }
 //home
 appRouter.get("/", home);
+appRouter.get("/?:filter=:order", filterPassengers);
 //login
 appRouter.get("/login", loginPage);
 appRouter.post("/login", login);
