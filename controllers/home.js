@@ -27,13 +27,22 @@ export async function home(req, res) {
 }
 export async function filterPassengers(req, res) {
   try {
+    if (req.params.page) {
+      page = req.params.page;
+      offset = (page - 1) * limit;
+    } else {
+      page = 1;
+      offset = (page - 1) * limit;
+    }
+    console.log(req.params);
     let chosenFilter = req.params.filter;
     let order = req.params.order;
-    order = order === "ASC" ? 1 : -1;
+    let sort = order === "ASC" ? 1 : -1;
     const Passengers = await PassengerModel.find()
       .sort({
-        [chosenFilter]: order,
+        [chosenFilter]: sort,
       })
+      .skip(offset)
       .limit(limit);
     const numberOfPassengers = await PassengerModel.countDocuments();
     res.render("home", {
@@ -43,6 +52,7 @@ export async function filterPassengers(req, res) {
       chosenFilter,
       order,
       limit,
+      page,
     });
   } catch (err) {
     res.status(500).send(err.message);

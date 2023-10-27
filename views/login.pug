@@ -8,11 +8,15 @@ block head
 block content
   .ui.middle.aligned.center.aligned.grid
     .sixteen.wide.ten.wide.tablet.seven.wide.computer.column
-      h1.text-center Login
+      div.margin-top-5
+      h1.text-center.margin-top-5 Login
+        if flashMessages
+          each flashMessage in flashMessages
+            +flashMessage(flashMessage.type, flashMessage.message)
 
       form.ui.large.form(method="post" action="/login")
         .ui.segment
           +field('email', 'email', 'your.email@address.tld')
           +field('password', 'password', 'Password')
-          button(type="submit").ui.fluid.large.teal.submit.button
+          button(type="submit").ui.fluid.large.black.submit.button
             | Login

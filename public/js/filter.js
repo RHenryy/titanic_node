@@ -20,10 +20,45 @@ function drawChart(
           data: numberof,
           borderWidth: 3,
           backgroundColor: color,
+          borderWidth: 0,
         },
       ],
     },
     options: {
+      responsive: true,
+      plugins: {
+        datalabels: {
+          color: "white",
+          formatter: function (context, args) {
+            const index = args.dataIndex;
+            if (type === "pie") {
+              if (xAxis === "Age") {
+                if (
+                  args.chart.data.labels[index] === "Inconnu" ||
+                  args.chart.data.labels[index] === "Age Inconnu"
+                ) {
+                  return (args.chart.data.labels[index] = "Age Inconnu");
+                } else {
+                  // args.chart.data.labels[index] =
+                  //   args.chart.data.labels[index] + " ans";
+                  return args.chart.data.labels[index] + " ans";
+                }
+              } else {
+                return args.chart.data.labels[index];
+              }
+            } else if (xAxis === "Age" && type !== "pie") {
+              context = "";
+              return context;
+            } else {
+              return context;
+            }
+          },
+          font: {
+            weight: "bold",
+            size: 16,
+          },
+        },
+      },
       scales: {
         y: {
           display: boolean,
@@ -42,6 +77,7 @@ function drawChart(
         },
       },
     },
+    plugins: [ChartDataLabels],
   });
 }
 try {
@@ -144,7 +180,6 @@ try {
             2
           );
           finalAgeArray.push(tempAge);
-          // finalAgeArray.push(ageInterval[age]);
         }
         for (const age in ageCount) {
           numberOf.push(ageCount[age]);
@@ -165,7 +200,13 @@ try {
           "black"
         );
         let labelArray = ["0-17", "18-35", "36-60", "60+", "Inconnu"];
-        let colorArray = ["blue", "green", "red", "yellow", "black"];
+        let colorArray = [
+          "#3D3D3D",
+          "#C1C1C1",
+          "#868686",
+          "#5A5E6B",
+          "#000000",
+        ];
         drawChart(
           labelArray,
           finalAgeArray,
@@ -232,7 +273,7 @@ try {
           "%</span>";
         uniqueLabel.splice(1, 0, "Morts hommes");
         uniqueLabel.splice(3, 0, "Morts femmes");
-        let labelArray = ["% Morts hommes", "% Morts femmes"];
+        let labelArray = ["Hommes", "Femmes"];
         let pieNumber = [
           ((numberOf[1] / totalDeaths) * 100).toFixed(2),
           ((numberOf[3] / totalDeaths) * 100).toFixed(2),
@@ -257,7 +298,7 @@ try {
           "pie",
           "titanicPieChart",
           "% de mortalité totale par sexe",
-          ["red", "blue"]
+          ["#3D3D3D", "#C1C1C1"]
         );
       } else if (filter === "Classe") {
         const classeCount = {};
@@ -326,7 +367,7 @@ try {
           ((numberOf[3] / totalDeaths) * 100).toFixed(2),
           ((numberOf[5] / totalDeaths) * 100).toFixed(2),
         ];
-        let colorArray = ["blue", "green", "red"];
+        let colorArray = ["#3D3D3D", "#C1C1C1", "#868686"];
         drawChart(
           uniqueLabel,
           numberOf,

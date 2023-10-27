@@ -3,45 +3,54 @@ extends layouts/basic_layout
 include includes/mixins/mixins
 
 block head
-  //- Inject here JS and styles for this specific page
+  script(defer src="../js/app.js")
 
 block content
 
-    h1.text-center Titanic Passengers Data
-    h2 Graphic charts :
-    div.flex
-        a(href="titanic/filter=sex").ui.fluid.large.black.button.filterBtn(data-filter="Sexe") Sexe
-        a(href="titanic/filter=Age").ui.fluid.large.black.button.filterBtn(data-filter="Age") Age
-        a(href="titanic/filter=classe").ui.fluid.large.black.button.filterBtn(data-filter="Classes") Classe 
-    p.margin-top-2 Nombre total de passagers : <b>#{numberOfPassengers}</b>
-    h2 Trier par :
-    div.flex
+    h1.text-center.margin-top-5.margin-bottom-5 Liste des passagers du Titanic
+        if flashMessages
+          each flashMessage in flashMessages
+            +flashMessage(flashMessage.type, flashMessage.message)
+    if !user
+      h5 <i>Veuillez vous connecter pour accéder aux chartes et aux statistiques</i>
+    if user
+      div.flex.max-width-50.margin-top-5.margin-bottom-5
+          a(href="/titanic/filter=sex").ui.fluid.large.black.button.filterBtn(data-filter="Sexe") Sexe
+          a(href="/titanic/filter=Age").ui.fluid.large.black.button.filterBtn(data-filter="Age") Age
+          a(href="/titanic/filter=classe").ui.fluid.large.black.button.filterBtn(data-filter="Classes") Classe 
+    div#showFilters.ui.button.black Show filters
+    div.flex.margin-top-2.filtersDiv.f-none
       div.filter
         h2 Genre
-          a(href="/Sex=ASC" class=(chosenFilter === "Sex" && order === 1 ? "activeArrow" : "")).filterLink
+          a(href="/Sex=ASC" class=(chosenFilter === "Sex" && order === "ASC" ? "activeArrow" : "")).filterLink
             i(class="fa-solid fa-arrow-up")
-          a(href="/Sex=DESC" class=(chosenFilter === "Sex" && order === -1 ? "activeArrow" : "")).filterLink
+          a(href="/Sex=DESC" class=(chosenFilter === "Sex" && order === "DESC" ? "activeArrow" : "")).filterLink
             i(class="fa-solid fa-arrow-down")
       div.filter
         h2 Age
-          a(href="/Age=ASC" class=(chosenFilter === "Age" && order === 1 ? "activeArrow" : "")).filterLink
+          a(href="/Age=ASC" class=(chosenFilter === "Age" && order === "ASC" ? "activeArrow" : "")).filterLink
             i(class="fa-solid fa-arrow-up")
-          a(href="/Age=DESC" class=(chosenFilter === "Age" && order === -1 ? "activeArrow" : "")).filterLink
+          a(href="/Age=DESC" class=(chosenFilter === "Age" && order === "DESC" ? "activeArrow" : "")).filterLink
             i(class="fa-solid fa-arrow-down")
       div.filter
         h2 Classe
-          a(href="/Pclass=ASC" class=(chosenFilter === "Pclass" && order === 1 ? "activeArrow" : "")).filterLink
+          a(href="/Pclass=ASC" class=(chosenFilter === "Pclass" && order === "ASC" ? "activeArrow" : "")).filterLink
             i(class="fa-solid fa-arrow-up")
-          a(href="/Pclass=DESC" class=(chosenFilter === "Pclass" && order === -1 ? "activeArrow" : "")).filterLink
+          a(href="/Pclass=DESC" class=(chosenFilter === "Pclass" && order === "DESC" ? "activeArrow" : "")).filterLink
             i(class="fa-solid fa-arrow-down")
+      div
+        input(type="text" name="filter" placeholder="Rechercher par nom").searchInput
+        .ui.button.black.submitInput 
+          | Rechercher 
+
     div.grid-container
         each passenger in Passengers 
           +passengerCard(passenger)
     div.flexPagination.margin-top-2
       - var i = 1
         while i < (numberOfPassengers/limit)+1
-          if typeof chosenFilter === string && typeof order=== string
-            a(href=`${chosenFilter}=${order}&page=${i}` class=(page === i ? "active-pagination" : "black")).ui.button= i++
+          if chosenFilter && order
+            a(href=`/${chosenFilter}=${order}/${i}` class=(page == i ? "active-pagination" : "black")).ui.button= i++
           else 
             a(href=`/page=${i}` class=(page == i ? "active-pagination" : "black")).ui.button= i++
 

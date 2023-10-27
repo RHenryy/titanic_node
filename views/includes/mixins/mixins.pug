@@ -3,13 +3,18 @@ mixin passengerCard(data)
         img(src="http://localhost:8000/assets/anonymous.jpg" class="passengerImg")
         p #{data.Name}
         p #{data.Sex === "male" ? "Homme" : "Femme"}
-        if data.Age
-          if data.Age > 1
-            p #{data.Age} ans
-          else 
-            p #{data.Age.toFixed(0)} an
+        if data.Age > 1 && data.Age!==null
+          p #{data.Age} ans
+        else if data.Age <= 1 && data.Age!==null
+          p #{data.Age.toFixed(0)} an
+        else 
+          p Age inconnu
         p #{data.Survived === 1 ? "A survécu" : "N'a pas survécu"}
-        p #{data.Pclass} e classe
+        if data.Pclass == 1
+          p #{data.Pclass} ère classe
+        if data.Pclass == 2 || data.Pclass == 3
+          p #{data.Pclass} ème classe
+
 
 mixin field(type, name, placeholder, value)
   .field
@@ -17,4 +22,12 @@ mixin field(type, name, placeholder, value)
       i.icon(class=(type === 'password' ? 'lock' : 'user'))
       input(type=type, name=name, placeholder=placeholder, required=true, value=value)
 
-
+mixin flashMessage(type, message)
+      div(class=type).ui.flashMessage
+        div.header
+        if type === "success"
+          | #{message} 
+          i.fa-solid.fa-circle-check
+        else 
+          | #{message} 
+          i.fa-solid.fa-circle-xmark

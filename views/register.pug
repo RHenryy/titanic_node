@@ -8,7 +8,11 @@ block head
 block content
   .ui.middle.aligned.center.aligned.grid
     .sixteen.wide.ten.wide.tablet.seven.wide.computer.column
+      div.margin-top-5
       h1 Register
+      if flashMessages
+        each flashMessage in flashMessages
+          +flashMessage(flashMessage.type, flashMessage.message)
       form.ui.large.form(method="post" action="/register")
         .ui.segment
           +field('text', 'firstName', 'First name')
@@ -16,5 +20,5 @@ block content
           +field('email', 'email', 'Your email')
           +field('password', 'password', 'Password')
           +field('password', 'password_confirm', 'Password confirmation')
-          button(type="submit").ui.fluid.large.teal.submit.button
+          button(type="submit").ui.fluid.large.black.submit.button
             | Register

@@ -1,23 +1,51 @@
-body {
-    background-color: lightgrey;
-}
+/** Framework bootstrap like **/
 .td-none {
     text-decoration: none;
 }
 .ls-none {
     list-style: none;
 }
+.text-center {
+    text-align: center;
+}
+.margin-top-2 {
+    margin-top: 2rem;
+}
+.margin-top-5 {
+    margin-top: 5rem;
+}
+.red {
+    color:red;
+}
+.blue {color: blue;}
+.white {
+    color: white;
+}
+.flex {
+    display: flex;
+    justify-content: space-evenly;
+}
+.max-width-50 {
+    max-width: 50%;
+    margin: 0 auto;
+}
+.max-width-50 a {
+    max-width: 20%;
+}
+.margin-bottom-5 {
+    margin-bottom: 5rem;
+}
+.margin-bottom-2 {
+    margin-bottom: 2rem;
+}
+/**Containers **/
+body {
+    background-color: lightgrey;
+}
 .container {
     width: 90%;
     margin: 0 auto;
     
-}
-.text-center {
-    text-align: center;
-}
-.form-container {
-    max-width: 80%;
-    margin: 0 auto;
 }
 .grid-container {
     display: grid;
@@ -28,6 +56,23 @@ body {
     margin: 0 auto;
     margin-top: 5rem;
   }
+.form-container {
+    max-width: 80%;
+    margin: 0 auto;
+}
+/** charts containers **/
+.canvas-container {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 3rem;
+}
+.pie-container {
+    width: 30%;
+    margin: 0 auto;
+    margin-top: 3rem;
+    padding-bottom: 5rem;
+}
+/** Home **/
 .passengerImg {
     max-width: 100%;
     display:block;
@@ -41,34 +86,11 @@ body {
     margin: 10px; 
     padding-bottom: 1.5rem;
 }
-.flex {
-    display: flex;
-    justify-content: space-evenly;
-}
 .flexPagination {
     display:flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-}
-.margin-top-2 {
-    margin-top: 2rem;
-}
-.margin-top-5 {
-    margin-top: 5rem;
-}
-.red {
-    color:red;
-}
-.blue {color: blue;}
-.canvas-container {
-    width: 80%;
-    margin: 0 auto;
-    margin-top: 3rem;
-}
-.pie-container {
-    width: 30%;
-    margin: 0 auto;
-    margin-top: 3rem;
+    padding-bottom: 5rem;
 }
 .activeFilter {
     background-color: white;
@@ -84,3 +106,44 @@ body {
     background-color: white;
     color: black;
 }
+/** js filters **/
+#showFilters {
+    display: none;
+    margin: 0 auto;
+}
+.hidden {
+    display: none;
+}
+
+/**footer **/
+.footer-div {
+    position: fixed;
+    bottom: 0;
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/** Flash messages **/
+.flashMessage {
+    max-width: 50%;
+    margin: 0 auto;
+    margin-top: 3rem;
+    padding: 1rem;
+    background-color: white;
+    border: 3px solid black;
+}
+.success {
+    color:green;
+}
+.error {
+    color:red;
+}
+.searchInput {padding: 0.5rem;}
+
+
+
+

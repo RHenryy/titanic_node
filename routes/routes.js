@@ -22,6 +22,7 @@ function isAuthenticated(req, res, next) {
 appRouter.get("/", home);
 appRouter.get("/page=:page", home);
 appRouter.get("/:filter=:order", filterPassengers);
+appRouter.get("/:filter=:order/:page", filterPassengers);
 //login
 appRouter.get("/login", loginPage);
 appRouter.post("/login", login);
@@ -31,6 +32,6 @@ appRouter.post("/register", register);
 //DC
 appRouter.get("/logout", disconnectController);
 //filter
-appRouter.get("/titanic/filter=:filter", filter);
-// appRouter.get("/titanic/filter=:filter", filter);
+appRouter.get("/titanic/filter=:filter", isAuthenticated, filter);
+
 export default appRouter;

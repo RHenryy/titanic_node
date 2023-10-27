@@ -6,8 +6,6 @@ import mongoose from "mongoose";
 import route from "./routes/routes.js";
 import apiRouter from "./routes/api.js";
 import session from "express-session";
-import jwt from "jsonwebtoken";
-import Chart from "chart.js/auto";
 // ==========
 // App initialization
 // ==========
@@ -33,8 +31,7 @@ app.use(
 );
 
 app.set("view engine", "pug");
-app.locals.pretty = NODE_ENV !== "production"; // Indente correctement le HTML envoyé au client (utile en dev, mais inutile en production)
-
+app.locals.pretty = NODE_ENV !== "production";
 // ==========
 // App middlewares
 // ==========
@@ -44,7 +41,6 @@ app.use((req, res, next) => {
   res.locals.user = req.session.user;
   req.session.flashMessages = req.session.flashMessages || [];
   res.locals.flashMessages = req.session.flashMessages;
-  // Clear flash messages from the session
   req.session.flashMessages = [];
   delete req.session.flashMessage;
   delete req.session.flashMessageType;

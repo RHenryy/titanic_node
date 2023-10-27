@@ -5,13 +5,16 @@ include includes/mixins/mixins
 block head
   script(defer type="module" src="../js/filter.js")
   script(src="https://cdn.jsdelivr.net/npm/chart.js")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js")
 block content
 
     h1.text-center Passengers Data
-    h2 Filter : 
+    if flashMessages
+        each flashMessage in flashMessages
+            +flashMessage(flashMessage.type, flashMessage.message)
+    h2.margin-bottom-2 Filter : 
         span#filter #{filter}
-    h2 Graphic charts :
-    div.flex
+    div.flex.max-width-50
         a(href="/titanic/filter=sex" class=(filter === "Sex" ? "activeFilter" : "black")).ui.fluid.large.button.filterBtn(data-filter="Sexe") Sexe
         a(href="/titanic/filter=Age" class=(filter === "Age" ? "activeFilter" : "black")).ui.fluid.large.button.filterBtn(data-filter="Age") Age
         a(href="/titanic/filter=classe" class=(filter === "Classe" ? "activeFilter" : "black")).ui.fluid.large.button.filterBtn(data-filter="Classes") Classe 

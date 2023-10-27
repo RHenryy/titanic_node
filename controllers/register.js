@@ -47,7 +47,7 @@ export async function register(req, res) {
       console.log(user);
       await user.save();
       req.session.flashMessages.push({
-        message: "User registered",
+        message: "Successfully registered",
         type: "success",
       });
       res.redirect("/login");
