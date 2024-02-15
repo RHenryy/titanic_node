@@ -58,13 +58,3 @@ export async function filterPassengers(req, res) {
     res.status(500).send(err.message);
   }
 }
-// export async function filter(req, res) {
-//   let pagename = "homepage";
-//   try {
-//     let filter = req.params.filter;
-//     const Passengers = await PassengerModel.find({
-//       Sex: "male",
-//     });
-//     res.render("home", { pagename, Passengers });
-//   } catch {}
-// }
